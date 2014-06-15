@@ -974,6 +974,46 @@ void create_task(GtkWidget  *parent)
 	gtk_table_attach (GTK_TABLE (table), task_font, 11, 12, 0, 1, GTK_FILL, 0, 0, 0);
 //	gtk_font_button_set_show_style (GTK_FONT_BUTTON (task_font), FALSE);
 
+	label = gtk_label_new (_("<b>Buttons</b>"));
+	gtk_misc_set_alignment (GTK_MISC (label), 0, 0);
+	gtk_label_set_use_markup (GTK_LABEL (label), TRUE);
+	gtk_widget_show (label);
+	gtk_box_pack_start(GTK_BOX (parent), label, FALSE, FALSE, 0);
+
+	table = gtk_table_new (4, 13, FALSE);
+	gtk_widget_show (table);
+	gtk_box_pack_start (GTK_BOX (parent), table, FALSE, FALSE, 0);
+	gtk_table_set_row_spacings (GTK_TABLE (table), ROW_SPACING);
+	gtk_table_set_col_spacings (GTK_TABLE (table), COL_SPACING);
+
+	label = gtk_label_new (_("Show minimize/maximize/close buttons"));
+	gtk_misc_set_alignment (GTK_MISC (label), 0, 0);
+	gtk_widget_show (label);
+	gtk_table_attach (GTK_TABLE (table), label, 2, 3, 0, 1, GTK_FILL, 0, 0, 0);
+
+	task_mmc_buttons_show = gtk_check_button_new ();
+	gtk_widget_show (task_mmc_buttons_show);
+	gtk_entry_set_max_length (GTK_ENTRY (task_mmc_buttons_show), 3);
+	gtk_table_attach (GTK_TABLE (table), task_mmc_buttons_show, 3, 4, 0, 1, GTK_FILL, 0, 0, 0);
+
+	label = gtk_label_new (_("Vertical padding"));
+	gtk_misc_set_alignment (GTK_MISC (label), 0, 0);
+	gtk_widget_show (label);
+	gtk_table_attach (GTK_TABLE (table), label, 2, 3, 1, 2, GTK_FILL, 0, 0, 0);
+
+	task_mmc_padding_y = gtk_spin_button_new_with_range (0, 9000, 1);
+	gtk_widget_show (task_mmc_padding_y);
+	gtk_table_attach (GTK_TABLE (table), task_mmc_padding_y, 3, 4, 1, 2, GTK_FILL, 0, 0, 0);
+
+	label = gtk_label_new (_("Horizontal padding"));
+	gtk_misc_set_alignment (GTK_MISC (label), 0, 0);
+	gtk_widget_show (label);
+	gtk_table_attach (GTK_TABLE (table), label, 2, 3, 3, 4, GTK_FILL, 0, 0, 0);
+
+	task_mmc_padding_x = gtk_spin_button_new_with_range (0, 9000, 1);
+	gtk_widget_show (task_mmc_padding_x);
+	gtk_table_attach (GTK_TABLE (table), task_mmc_padding_x, 3, 4, 3, 4, GTK_FILL, 0, 0, 0);
+
 	// tasks
 	notebook = gtk_notebook_new ();
 	gtk_widget_show (notebook);

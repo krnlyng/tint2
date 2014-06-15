@@ -57,6 +57,8 @@ task_active_background_id = 2
 task_urgent_background_id = 2
 task_iconified_background_id = 3
 task_tooltip = 0
+task_minimize_maximize_close_buttons = 1
+task_mmc_padding = 2 2
 
 # Task Icons
 task_icon_asb = 70 0 0

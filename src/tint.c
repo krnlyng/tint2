@@ -226,6 +226,33 @@ void init_X11()
 			default_icon = imlib_load_image(path);
 		g_free(path);
 	}
+	for (i = 0; data_dirs[i] != NULL; i++)	{
+		path = g_build_filename(data_dirs[i], "tint2", "maximize_button.png", NULL);
+		if (g_file_test (path, G_FILE_TEST_EXISTS)) {
+			maximize_icon = imlib_load_image(path);
+			g_free(path);
+			break;
+		}
+		g_free(path);
+	}
+	for (i = 0; data_dirs[i] != NULL; i++)	{
+		path = g_build_filename(data_dirs[i], "tint2", "minimize_button.png", NULL);
+		if (g_file_test (path, G_FILE_TEST_EXISTS)) {
+			minimize_icon = imlib_load_image(path);
+			g_free(path);
+			break;
+		}
+		g_free(path);
+	}
+	for (i = 0; data_dirs[i] != NULL; i++)	{
+		path = g_build_filename(data_dirs[i], "tint2", "close_button.png", NULL);
+		if (g_file_test (path, G_FILE_TEST_EXISTS)) {
+			close_icon = imlib_load_image(path);
+			g_free(path);
+			break;
+		}
+		g_free(path);
+	}
 
 	// get monitor and desktop config
 	get_monitors();
@@ -244,6 +271,19 @@ void cleanup()
 #endif
 	cleanup_panel();
 	cleanup_config();
+
+	if (minimize_icon) {
+		imlib_context_set_image(minimize_icon);
+		imlib_free_image();
+	}
+	if (maximize_icon) {
+		imlib_context_set_image(maximize_icon);
+		imlib_free_image();
+	}
+	if (close_icon) {
+		imlib_context_set_image(close_icon);
+		imlib_free_image();
+	}
 
 	if (default_icon) {
 		imlib_context_set_image(default_icon);
@@ -475,6 +515,8 @@ void event_button_release (XEvent *e)
 	Panel *panel = get_panel(e->xany.window);
 	if (!panel) return;
 
+    int button_action = NO_BUTTON;
+
 	if (wm_menu && !tint2_handles_click(panel, &e->xbutton)) {
 		forward_click(e);
 		if (panel_layer == BOTTOM_LAYER)
@@ -544,8 +586,28 @@ void event_button_release (XEvent *e)
 			set_desktop (tskbar->desktop);
 	}
 
-	// action on task
-	window_action( click_task(panel, e->xbutton.x, e->xbutton.y), action);
+	Task *task = click_task(panel, e->xbutton.x, e->xbutton.y);
+	if((button_action = click_button(panel, task, e->xbutton.x, e->xbutton.y)) != NO_BUTTON)
+	{
+		switch(button_action)
+		{
+			case CLOSE_BUTTON: window_action(task, CLOSE);
+			case MAXIMIZE_BUTTON:
+						{
+							if(window_is_iconified(task->win))
+								window_action(task, TOGGLE_ICONIFY);
+							window_action(task, MAXIMIZE);
+							return;
+						}
+			case MINIMIZE_BUTTON: window_action(task, ICONIFY);
+		}
+	} 
+	// button action on task
+	else
+	{
+		// action on task
+		window_action(task, action);
+	}
 
 	// to keep window below
 	if (panel_layer == BOTTOM_LAYER)

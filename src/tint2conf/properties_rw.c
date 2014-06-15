@@ -379,6 +379,14 @@ void add_entry (char *key, char *value)
 	else if (strcmp (key, "task_font") == 0) {
 		gtk_font_button_set_font_name(GTK_FONT_BUTTON(task_font), value);
 	}
+	else if (strcmp (key, "task_minimize_maximize_close_buttons") == 0) {
+		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(task_mmc_buttons_show), atoi(value));
+	}
+	else if (strcmp (key, "task_buttons_padding") == 0) {
+		extract_values(value, &value1, &value2, &value3);
+		gtk_spin_button_set_value(GTK_SPIN_BUTTON(task_mmc_padding_x), atof(value1));
+		if(value2) gtk_spin_button_set_value(GTK_SPIN_BUTTON(task_mmc_padding_y), atof(value2));
+	}
 	else if (g_regex_match_simple("task.*_font_color", key, 0, 0)) {
 		/*gchar** split = g_regex_split_simple("_", key, 0, 0);
 		int status = get_task_status(split[1]);
@@ -413,6 +421,7 @@ void add_entry (char *key, char *value)
 		if (status == TASK_NORMAL) panel_config.g_task.area.bg = panel_config.g_task.background[TASK_NORMAL];
 		*/
 	}
+
 	// "tooltip" is deprecated but here for backwards compatibility
 	else if (strcmp (key, "task_tooltip") == 0 || strcmp(key, "tooltip") == 0) {
 		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(tooltip_task_show), atoi(value));

@@ -58,6 +58,8 @@ TASK_MAXIMUM_SIZE_X = "200"
 TASK_MAXIMUM_SIZE_Y = "32"
 TASK_PADDING_X = "0"
 TASK_PADDING_Y = "0"
+TASK_MMC_PADDING_X = "2"
+TASK_MMC_PADDING_Y = "2"
 TASK_SPACING = "0"
 TRAY_PADDING_X = "0"
 TRAY_PADDING_Y = "0"
@@ -604,6 +606,15 @@ class TintWizardGUI(gtk.Window):
 		self.taskPadX = createEntry(self.tableTask, maxSize=6, width=8, text=TASK_PADDING_X, gridX=1, gridY=7, xExpand=True, yExpand=False, handler=self.changeOccurred)
 		self.taskPadY = createEntry(self.tableTask, maxSize=6, width=8, text=TASK_PADDING_Y, gridX=2, gridY=7, xExpand=True, yExpand=False, handler=self.changeOccurred)
 		self.registerComponent("task_padding", (self.taskPadX, self.taskPadY))
+
+		createLabel(self.tableTask, text="Show minimize/maximize/close buttons", gridX=0, gridY=8, xPadding=10)
+		self.taskMMCButtonsCheckButton = createCheckButton(self.tableTask, active=True, gridX=1, gridY=8, xExpand=True, yExpand=False, handler=self.changeOccurred)
+		self.registerComponent("task_minimize_maximize_close_buttons", self.taskMMCButtonsCheckButton)
+
+		createLabel(self.tableTask, text="Button Padding (x, y)", gridX=0, gridY=9, xPadding=10)
+		self.taskMMCPadX = createEntry(self.tableTask, maxSize=6, width=8, text=TASK_MMC_PADDING_X, gridX=1, gridY=9, xExpand=True, yExpand=False, handler=self.changeOccurred)
+		self.taskMMCPadY = createEntry(self.tableTask, maxSize=6, width=8, text=TASK_MMC_PADDING_Y, gridX=2, gridY=9, xExpand=True, yExpand=False, handler=self.changeOccurred)
+		self.registerComponent("task_buttons_padding", (self.taskMMCPadX, self.taskMMCPadY))
 		
 	def createNormalTasksWidgets(self):
 		"""Create the Normal Tasks widgets."""
@@ -1321,6 +1332,9 @@ class TintWizardGUI(gtk.Window):
 		self.configBuf.insert(self.configBuf.get_end_iter(), "task_maximum_size = %s %s\n" % (self.taskMaxSizeX.get_text() if self.taskMaxSizeX.get_text() else TASK_MAXIMUM_SIZE_X, self.taskMaxSizeY.get_text() if self.taskMaxSizeY.get_text() else TASK_MAXIMUM_SIZE_Y))
 		self.configBuf.insert(self.configBuf.get_end_iter(), "task_padding = %s %s\n" % (self.taskPadX.get_text() if self.taskPadX.get_text() else TASK_PADDING_X,
 															self.taskPadY.get_text() if self.taskPadY.get_text() else TASK_PADDING_Y))
+		self.configBuf.insert(self.configBuf.get_end_iter(), "task_minimize_maximize_close_buttons = %s\n" % int(self.taskMMCButtonsCheckButton.get_active()))
+		self.configBuf.insert(self.configBuf.get_end_iter(), "task_buttons_padding = %s %s\n" % (self.taskMMCPadX.get_text() if self.taskMMCPadX.get_text() else TASK_MMC_PADDING_X,
+															self.taskMMCPadY.get_text() if self.taskMMCPadY.get_text() else TASK_MMC_PADDING_Y))
 		self.configBuf.insert(self.configBuf.get_end_iter(), "task_background_id = %s\n" % (self.taskBg.get_active()))
 		self.configBuf.insert(self.configBuf.get_end_iter(), "task_active_background_id = %s\n" % (self.taskActiveBg.get_active()))
 		self.configBuf.insert(self.configBuf.get_end_iter(), "task_urgent_background_id = %s\n" % (self.taskUrgentBg.get_active()))
@@ -1776,6 +1790,9 @@ class TintWizardGUI(gtk.Window):
 		self.taskMaxSizeY.set_text(TASK_MAXIMUM_SIZE_Y)
 		self.taskPadX.set_text(TASK_PADDING_X)
 		self.taskPadY.set_text(TASK_PADDING_Y)
+		self.taskMMCButtonsCheckButton.set_active(True)
+		self.taskMMCPadX.set_text(TASK_MMC_PADDING_X)
+		self.taskMMCPadY.set_text(TASK_MMC_PADDING_Y)
 		self.taskBg.set_active(0)
 		self.taskActiveBg.set_active(0)
 		self.taskUrgentBg.set_active(0)

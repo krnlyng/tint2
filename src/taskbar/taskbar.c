@@ -219,6 +219,24 @@ void init_taskbar_panel(void *p)
 	}
 	//printf("monitor %d, task_maximum_width %d\n", panel->monitor, panel->g_task.maximum_width);
 
+	panel->g_task.close_button_area.posy = panel->g_task.mmc_buttons_padding_y;
+	imlib_context_set_image(close_icon);
+	panel->g_task.close_button_area.posx = panel->g_task.maximum_width - imlib_image_get_width() - panel->g_task.mmc_buttons_padding_x;
+	panel->g_task.close_button_area.width = imlib_image_get_width();
+	panel->g_task.close_button_area.height = imlib_image_get_height();
+
+	panel->g_task.maximize_button_area.posy = panel->g_task.mmc_buttons_padding_y;
+	imlib_context_set_image(maximize_icon);
+	panel->g_task.maximize_button_area.posx = panel->g_task.close_button_area.posx - imlib_image_get_width() - panel->g_task.mmc_buttons_padding_x;
+	panel->g_task.maximize_button_area.width = imlib_image_get_width();
+	panel->g_task.maximize_button_area.height = imlib_image_get_height();
+
+	panel->g_task.minimize_button_area.posy = panel->g_task.mmc_buttons_padding_y;
+	imlib_context_set_image(minimize_icon);
+	panel->g_task.minimize_button_area.posx = panel->g_task.maximize_button_area.posx - imlib_image_get_width() - panel->g_task.mmc_buttons_padding_x;
+	panel->g_task.minimize_button_area.width = imlib_image_get_width();
+	panel->g_task.minimize_button_area.height = imlib_image_get_height();
+
 	Taskbar *tskbar;
 	panel->nb_desktop = server.nb_desktop;
 	panel->taskbar = calloc(server.nb_desktop, sizeof(Taskbar));

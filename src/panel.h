@@ -67,6 +67,9 @@ extern GArray* backgrounds;
 
 extern Imlib_Image default_icon;
 
+extern Imlib_Image minimize_icon;
+extern Imlib_Image maximize_icon;
+extern Imlib_Image close_icon;
 
 // tint2 use one panel per monitor and one taskbar per desktop.
 typedef struct {
@@ -148,6 +151,7 @@ Panel *get_panel(Window win);
 
 Taskbar *click_taskbar (Panel *panel, int x, int y);
 Task *click_task (Panel *panel, int x, int y);
+int click_button (Panel *panel, Task *task, int x, int y);
 Launcher *click_launcher (Panel *panel, int x, int y);
 LauncherIcon *click_launcher_icon (Panel *panel, int x, int y);
 int click_padding(Panel *panel, int x, int y);

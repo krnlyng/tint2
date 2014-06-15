@@ -27,6 +27,13 @@ typedef struct {
 	int icon;
 	int centered;
 
+	int mmc_buttons_enabled;
+    int mmc_buttons_padding_x;
+	int mmc_buttons_padding_y;
+    Area minimize_button_area;
+    Area maximize_button_area;
+    Area close_button_area;
+
 	int icon_posy;
 	int icon_size1;
 	int maximum_width;

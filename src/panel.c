@@ -72,11 +72,18 @@ GArray* backgrounds;
 
 Imlib_Image default_icon;
 
+Imlib_Image minimize_icon;
+Imlib_Image maximize_icon;
+Imlib_Image close_icon;
+
 void default_panel()
 {
 	panel1 = 0;
 	nb_panel = 0;
-	default_icon = NULL;
+	default_icon = NULL; 
+	minimize_icon = NULL;
+	maximize_icon = NULL;
+	close_icon = NULL;
 	task_dragged = 0;
 	panel_horizontal = 1;
 	panel_position = CENTER;
@@ -568,7 +575,6 @@ Panel *get_panel(Window win)
 	return 0;
 }
 
-
 Taskbar *click_taskbar (Panel *panel, int x, int y)
 {
 	Taskbar *tskbar;
@@ -624,6 +630,16 @@ Task *click_task (Panel *panel, int x, int y)
 	return NULL;
 }
 
+int click_button (Panel *panel, Task *task, int x, int y)
+{
+	if(!task) return NO_BUTTON;
+
+	if((x >= task->area.posx + panel->g_task.close_button_area.posx && x <= task->area.posx + panel->g_task.close_button_area.posx + panel->g_task.close_button_area.width) && (y >= task->area.posy + panel->g_task.close_button_area.posy && y <= task->area.posy + panel->g_task.close_button_area.posy + panel->g_task.close_button_area.height)) return CLOSE_BUTTON;
+	if((x >= task->area.posx + panel->g_task.maximize_button_area.posx && x <= task->area.posx + panel->g_task.maximize_button_area.posx + panel->g_task.maximize_button_area.width) && (y >= task->area.posy + panel->g_task.maximize_button_area.posy && y <= task->area.posy + panel->g_task.maximize_button_area.posy + panel->g_task.maximize_button_area.height)) return MAXIMIZE_BUTTON;
+	if((x >= task->area.posx + panel->g_task.minimize_button_area.posx && x <= task->area.posx + panel->g_task.minimize_button_area.posx + panel->g_task.minimize_button_area.width) && (y >= task->area.posy + panel->g_task.minimize_button_area.posy && y <= task->area.posy + panel->g_task.minimize_button_area.posy + panel->g_task.minimize_button_area.height)) return MINIMIZE_BUTTON;
+
+	return NO_BUTTON;
+}
 
 Launcher *click_launcher (Panel *panel, int x, int y)
 {

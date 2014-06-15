@@ -340,6 +340,19 @@ void draw_task_icon (Task *tsk, int text_width)
 	}
 }
 
+void draw_mmc_buttons(Task *tsk)
+{
+	Panel *panel = (Panel*)tsk->area.panel;
+
+	imlib_context_set_image(close_icon);
+	imlib_render_image_on_drawable(panel->g_task.close_button_area.posx, panel->g_task.close_button_area.posy);
+
+	imlib_context_set_image(maximize_icon);
+	imlib_render_image_on_drawable(panel->g_task.maximize_button_area.posx, panel->g_task.maximize_button_area.posy);
+
+	imlib_context_set_image(minimize_icon);
+	imlib_render_image_on_drawable(panel->g_task.minimize_button_area.posx, panel->g_task.minimize_button_area.posy);
+}
 
 void draw_task (void *obj, cairo_t *c)
 {
@@ -389,6 +402,9 @@ void draw_task (void *obj, cairo_t *c)
 
 	if (panel->g_task.icon) {
 		draw_task_icon (tsk, width);
+	}
+	if(panel->g_task.mmc_buttons_enabled) {
+		draw_mmc_buttons(tsk);
 	}
 }
 
