@@ -345,12 +345,15 @@ void draw_mmc_buttons(Task *tsk)
 	Panel *panel = (Panel*)tsk->area.panel;
 
 	imlib_context_set_image(close_icon);
+	panel->g_task.close_button_area.posx = panel->g_task.text_posx + panel->taskbar->text_width - imlib_image_get_width();
 	imlib_render_image_on_drawable(panel->g_task.close_button_area.posx, panel->g_task.close_button_area.posy);
 
 	imlib_context_set_image(maximize_icon);
+	panel->g_task.maximize_button_area.posx = panel->g_task.close_button_area.posx - imlib_image_get_width() - panel->g_task.mmc_buttons_padding_x;
 	imlib_render_image_on_drawable(panel->g_task.maximize_button_area.posx, panel->g_task.maximize_button_area.posy);
 
 	imlib_context_set_image(minimize_icon);
+	panel->g_task.minimize_button_area.posx = panel->g_task.maximize_button_area.posx - imlib_image_get_width() - panel->g_task.mmc_buttons_padding_x;
 	imlib_render_image_on_drawable(panel->g_task.minimize_button_area.posx, panel->g_task.minimize_button_area.posy);
 }
 
